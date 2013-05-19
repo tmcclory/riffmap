@@ -51,11 +51,14 @@
 	
 	
 	function addTrack(trackID) {
-		function addSegment() {
+		function addSegment(numTracks) {
+			var start = $( "#slider-range"+numTracks ).slider( "values", 0 )
+			var end = $( "#slider-range"+numTracks ).slider( "values", 1 )
+			model[[trackID,start,end]]=new Array()
 		$('ul','#tabs').append('<li><a href="#tabs-'+numSegments+'">'+'</a></li>')
 		for(var i=0; i<numSegments; i++) {
 			$('#tabs-'+i).append('<input type="checkbox" id="check'+i+'-'+numSegments+'" /><label id=check-label-"'+i+'-'+numSegments+'" for="check'+i+'-'+numSegments+'"></label>')
-			console.log($('#check-label'+i+'-'+numSegments))
+			
 			
 			$('#check-label'+i+'-'+numSegments).hover(
 				function () {
@@ -137,7 +140,9 @@
 	      icons: {
 	        primary: "ui-icon-plus",
 	      }
-	    }).click(addSegment)
+	    }).click((function (numTracks) { return function () {
+	    		addSegment(numTracks)
+	    	}})(numTracks))
 	 		 
  		 
  		 }
@@ -178,6 +183,9 @@
   
   </script>
 
+	<button>Play</button>
+	<button>Save</button>
+	<button>Load</button>
 	<div id="sliders"></div>
 	<div id="tabs" style="width:50%">
 		<ul></ul>
