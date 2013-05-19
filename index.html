@@ -37,6 +37,7 @@
   <script src="js/libs/jquery-1.9.1.js"></script>
   <script src="js/libs/jquery-ui-1.10.3.custom.js"></script>
   <script src="js/libs/remix.js"></script>
+  <script src="js/mylibs/riffmap.js"></script>
 </head>
 
 <body>
@@ -76,7 +77,7 @@
 	}
 
 	var numTracks = 0;
-	function addTrack() {
+	function addTrack(trackID) {
 		/* Buttons */
 		$('#sliders').append('<button id="stop'+numTracks+'"> </button>')
 		$('#sliders').append('<button id="play'+numTracks+'"> </button>')
@@ -94,7 +95,7 @@
    		 $( "#slider-range"+numTracks ).slider({
 	     	 range: true,
 	     	 min: 0,
-	     	 max: 500,
+	     	 max: r.tracks[trackID].analysis.tatums.length,
 	     	 values: [ 75, 300 ],
 	     	 slide: (function (numTracks) { 
 	     	 	return function( event, ui ) {
@@ -113,11 +114,22 @@
 	      icons: {
 	        primary: "ui-icon-play"
 	      }
-	    }).next().button({
+	    }).click( (function (numTracks) { return function () {
+	    	r.playQuanta('tatum',trackID,
+	    		$( "#slider-range"+numTracks ).slider( "values", 0 ),
+	    		$( "#slider-range"+numTracks ).slider( "values", 1 ))
+	    	}})(numTracks)
+	    ).next().button({
 	      icons: {
 	        primary: "ui-icon-play",
 	      }
-	    }).next().button({
+	    }).click((function (numTracks) { return function () {
+	    	r.playThrice('tatum',trackID,
+	    		$( "#slider-range"+numTracks ).slider( "values", 0 ),
+	    		$( "#slider-range"+numTracks ).slider( "values", 1 ))
+	    	}})(numTracks)
+	    	
+	    ).next().button({
 	      icons: {
 	        primary: "ui-icon-plus",
 	      }
@@ -137,8 +149,28 @@
     $("#tabs").tabs();
   });
 
+	var r;
 	
-	addTrack();
+	function finishInit() {
+		r.playQuanta('beat','TRSLJZD13EB9329250',383,392)
+		
+		addTrack(beatID);
+		addTrack(sandID);
+		addTrack(comeID);
+	}
+	
+	window.onload= function() {
+		r = new Remixer()
+		r.init();		
+		
+			// FIXME !!!!
+		setTimeout(function(){finishInit()}, 15000);
+
+
+		
+	}
+	
+	
   
   </script>
 
