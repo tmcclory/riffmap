@@ -23,9 +23,10 @@
 
   <!-- CSS: implied media=all -->
   <!-- CSS concatenated and minified via ant build script-->
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 
+ 
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <link rel="stylesheet" href="css/style.css">
   <!-- end CSS-->
 
   <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
@@ -40,6 +41,21 @@
 
 <body>
   <script>
+	var numSegments = 0
+	function addSegment() {
+		$('ul','#tabs').append('<li><a href="#tabs-'+numSegments+'">'+'</a></li>')
+		for(var i=0; i<numSegments; i++) {
+			$('#tabs-'+i).append('<input type="checkbox" id="check'+i+'-'+numSegments+'" /><label for="check'+i+'-'+numSegments+'"></label>')
+		}
+		
+		$('#tabs').append('<div id="tabs-'+ numSegments+'"><p></p></div>')
+		for(var i=0; i<numSegments+1; i++) {
+			$('#tabs-'+numSegments).append('<input type="checkbox" id="check'+numSegments+'-'+i+'" /><label for="check'+numSegments+'-'+i+'"></label>')
+		}
+		
+		numSegments++;
+		$( "#tabs" ).tabs("refresh")
+	}
 
 	var numTracks = 0;
 	function addTrack() {
@@ -47,6 +63,7 @@
 		$('#sliders').append('<button id="stop'+numTracks+'"></button>')
 		$('#sliders').append('<button id="play'+numTracks+'"></button>')
 		$('#sliders').append('<button id="playThrice'+numTracks+'">x3</button>')
+		$('#sliders').append('<button id="addSegment'+numTracks+'"></button>')
 		
 		/* Slider */
 		$('#sliders').append("<p>")
@@ -83,7 +100,11 @@
 	      icons: {
 	        primary: "ui-icon-play",
 	      }
-	    })
+	    }).next().button({
+	      icons: {
+	        primary: "ui-icon-plus",
+	      }
+	    }).click(addSegment)
 	 		 
  		 
  		 }
@@ -95,12 +116,18 @@
 		numTracks++;
 	}
 	
+	$(function() {
+    $("#tabs").tabs();
+  });
+
+	
 	addTrack();
   
   </script>
 
-	<div id="sliders">
-
+	<div id="sliders"></div>
+	<div id="tabs" style="width:50%">
+		<ul></ul>
 	</div>
 
 
