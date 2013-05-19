@@ -47,22 +47,53 @@
       max: 500,
       values: [ 75, 300 ],
       slide: function( event, ui ) {
-        $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+        $( "#amount" ).val(  ui.values[ 0 ] + " - " + ui.values[ 1 ] );
       }
     });
-    $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
-      " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+    $( "#amount" ).val(  $( "#slider-range" ).slider( "values", 0 ) +
+      " - " + $( "#slider-range" ).slider( "values", 1 ) );
   });
+  
+  $("#amount").change(function () {
+	    var value = this.value.substring(1);
+	    console.log(value);
+	    $("#slider").slider("value", parseInt(value));
+	});
+	
+	var numTracks = 0;
+	
+	function addTrack() {
+		$('#sliders').append("<p>")
+		$('#sliders').append('<label for="range'+numTracks+'">Beat range:</label>')
+		$('#sliders').append('<input type="text" id="range'+numTracks+'" style="border: 0; color: #f6931f; font-weight: bold;" />')
+		$('#sliders').append('<div id="slider-range'+numTracks+'" style="width:75%"></div>')
+		$('#sliders').append("</p>")
+		
+		$(function() {
+   		 $( "#slider-range"+numTracks ).slider({
+	     	 range: true,
+	     	 min: 0,
+	     	 max: 500,
+	     	 values: [ 75, 300 ],
+	     	 slide: (function (numTracks) { 
+	     	 	return function( event, ui ) {
+	     	 		$( "#range"+numTracks ).val(  ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+	    			} 
+	    		})(numTracks)
+	    	});
+	   		 $( "#range" +numTracks).val(  $( "#slider-range"+numTracks ).slider( "values", 0 ) +
+	     	 " - " + $( "#slider-range"+numTracks ).slider( "values", 1 ) );
+ 		 });
+		numTracks++;
+	}
+	
+	addTrack();
+  
   </script>
 
+	<div id="sliders">
 
-		<p>
-	        <label for="amount">Price range:</label>
-			<input type="text" id="amount" style="border: 0; color: #f6931f; font-weight: bold;" />
-		</p>
-	 
-		<div id="slider-range"></div>
-
+	</div>
 
 
 
