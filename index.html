@@ -43,11 +43,15 @@
 <body>
   <script>
 	var numSegments = 0
-	$('.button').hover(function() {
-	console.log("Yo " +i)
-	})
+	var model = {}
 	
-	function addSegment() {
+	
+
+	var numTracks = 0;
+	
+	
+	function addTrack(trackID) {
+		function addSegment() {
 		$('ul','#tabs').append('<li><a href="#tabs-'+numSegments+'">'+'</a></li>')
 		for(var i=0; i<numSegments; i++) {
 			$('#tabs-'+i).append('<input type="checkbox" id="check'+i+'-'+numSegments+'" /><label id=check-label-"'+i+'-'+numSegments+'" for="check'+i+'-'+numSegments+'"></label>')
@@ -55,7 +59,7 @@
 			
 			$('#check-label'+i+'-'+numSegments).hover(
 				function () {
-					console.log("Yo "+i)
+
 				},
 				function() {
 					
@@ -75,9 +79,10 @@
 		numSegments++;
 		$( "#tabs" ).tabs("refresh")
 	}
-
-	var numTracks = 0;
-	function addTrack(trackID) {
+		
+		
+		
+		
 		/* Buttons */
 		$('#sliders').append('<button id="stop'+numTracks+'"> </button>')
 		$('#sliders').append('<button id="play'+numTracks+'"> </button>')
@@ -128,7 +133,6 @@
 	    		$( "#slider-range"+numTracks ).slider( "values", 0 ),
 	    		$( "#slider-range"+numTracks ).slider( "values", 1 ))
 	    	}})(numTracks)
-	    	
 	    ).next().button({
 	      icons: {
 	        primary: "ui-icon-plus",
